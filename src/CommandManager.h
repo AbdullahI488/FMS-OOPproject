@@ -1,4 +1,4 @@
-#ifndef AUDIOFILE.H
+#ifndef COMMANDMANAGER_H
 #define COMMANDMANGER_H
 #include<iostream>
 #include"Folder.h"
