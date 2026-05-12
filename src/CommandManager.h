@@ -4,7 +4,6 @@
 #include "Folder.h"
 
 #include <string>
-#include <unordered_set>
 #include <vector>
 
 class CommandManager
@@ -12,9 +11,10 @@ class CommandManager
 private:
 
     Folder* root;
+
     Folder* currentfolder;
 
-    std::unordered_set<std::string> allnames;
+    std::vector<std::string> allnames;
 
     bool isnametaken(const std::string& name) const;
 
@@ -25,8 +25,6 @@ private:
     void unregistersubtree(Node* node);
 
     std::string getcurrentpath() const;
-
-    std::string buildchildpath(const std::string& extension = "") const;
 
     void cmdls();
 
