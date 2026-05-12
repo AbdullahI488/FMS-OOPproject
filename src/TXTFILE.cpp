@@ -1,11 +1,9 @@
-#include"TXTFile.h";
-using namespace std;
+#include "TXTFile.h"
 
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
-
-
+#include <cstdio>
 
 TxtFile::TxtFile(const std::string& name,
     const std::string& diskPath,
@@ -14,103 +12,97 @@ TxtFile::TxtFile(const std::string& name,
 {
 }
 
-
 void TxtFile::createOnDisk() {
-    std::ofstream f(diskPath);
+    std::ofstream f(diskpath);
     if (!f.is_open()) {
-        throw std::runtime_error("Could not create file: " + diskPath);
+        throw std::runtime_error("Could not create file: " + diskpath);
     }
-    // File is created empty; f closes automatically when it goes out of scope
-    std::cout << "[OK] Created " << diskPath << "\n";
+    std::cout << "[OK] Created " << diskpath << "\n";
 }
-
 
 void TxtFile::loadFromDisk() {
     lines.clear();
-    std::ifstream f(diskPath);
+    std::ifstream f(diskpath);
     if (!f.is_open()) {
         lines.push_back("");
         return;
     }
+
     std::string line;
     while (std::getline(f, line)) {
         lines.push_back(line);
     }
+
     if (lines.empty()) lines.push_back("");
 }
 
-
 void TxtFile::saveToDisk() {
-    std::ofstream f(diskPath, std::ios::trunc);
+    std::ofstream f(diskpath, std::ios::trunc);
     if (!f.is_open()) {
-        throw std::runtime_error("Could not save file: " + diskPath);
+        throw std::runtime_error("Could not save file: " + diskpath);
     }
+
     for (size_t i = 0; i < lines.size(); ++i) {
         f << lines[i];
-        if (i + 1 < lines.size()) f << "\n";   
+        if (i + 1 < lines.size()) f << "\n";
     }
+
     std::cout << "[Saved]\n";
 }
 
 void TxtFile::runEditor() {
     int cursor = 0;
-    string cmd;
+    std::string cmd;
 
     while (true) {
-        cout << "\n--- " << name << " ---\n";
+        std::cout << "\n--- " << name << " ---\n";
 
-        for (int i = 0; i < lines.size(); i++) {
-            if (i == cursor) cout << "> ";
-            else cout << "  ";
+        for (size_t i = 0; i < lines.size(); i++) {
+            if (static_cast<int>(i) == cursor) std::cout << "> ";
+            else std::cout << "  ";
 
-            cout << i + 1 << ": " << lines[i] << endl;
+            std::cout << i + 1 << ": " << lines[i] << std::endl;
         }
-        cout << "\nCommands: up, down, edit, add, del, close\n> ";
-        getline(cin, cmd);
+
+        std::cout << "\nCommands: up, down, edit, add, del, close\n> ";
+        std::getline(std::cin, cmd);
 
         if (cmd == "up") {
-            if (cursor > 0)
-                cursor--;
+            if (cursor > 0) cursor--;
         }
-
         else if (cmd == "down") {
-            if (cursor < lines.size() - 1)
-                cursor++;
+            if (cursor < static_cast<int>(lines.size()) - 1) cursor++;
         }
-
         else if (cmd == "edit") {
-            cout << "Enter new text: ";
-            getline(cin, lines[cursor]);
+            std::cout << "Enter new text: ";
+            std::getline(std::cin, lines[cursor]);
         }
-
         else if (cmd == "add") {
-            string text;
-            cout << "Enter new line: ";
-            getline(cin, text);
+            std::string text;
+            std::cout << "Enter new line: ";
+            std::getline(std::cin, text);
 
             lines.insert(lines.begin() + cursor + 1, text);
             cursor++;
         }
-
         else if (cmd == "del") {
             if (lines.size() > 1) {
                 lines.erase(lines.begin() + cursor);
-
-                if (cursor >= lines.size())
-                    cursor = lines.size() - 1;
+                if (cursor >= static_cast<int>(lines.size())) {
+                    cursor = static_cast<int>(lines.size()) - 1;
+                }
             }
         }
         else if (cmd == "close") {
             break;
         }
         else {
-            cout << "Invalid command\n";
+            std::cout << "Invalid command\n";
         }
     }
 
     saveToDisk();
 }
-
 
 void TxtFile::open() {
     try {
@@ -121,22 +113,21 @@ void TxtFile::open() {
         std::cout << "[Error opening file] " << e.what() << "\n";
     }
 }
-bool TxtFile::deleteFromDisk() {
-    std::ifstream file(diskPath);
 
+bool TxtFile::deleteFromDisk() {
+    std::ifstream file(diskpath);
     if (!file.good()) {
-        std::cout << "[Error] File does not exist: " << diskPath << "\n";
+        std::cout << "[Error] File does not exist: " << diskpath << "\n";
         return false;
     }
 
     file.close();
-
-    if (remove(diskPath.c_str()) == 0) {
-        std::cout << "[OK] File deleted: " << diskPath << "\n";
+    if (std::remove(diskpath.c_str()) == 0) {
+        std::cout << "[OK] File deleted: " << diskpath << "\n";
         return true;
     }
 
-    std::cout << "[Error] Could not delete file: " << diskPath << "\n";
+    std::cout << "[Error] Could not delete file: " << diskpath << "\n";
     return false;
 }
 
