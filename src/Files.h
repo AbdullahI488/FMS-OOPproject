@@ -1,21 +1,36 @@
-#ifndef FILES_H
-#define FILES_H
-#include<iostream>
-#include "Node.h"
-class Files {
+#ifndef FILE_H
+#define FILE_H
+
+#include <string>
+
+class Folder;
+
+class File {
+protected:
+    std::string name;
+    std::string diskPath;
+    Folder* parent;
+
 public:
+    File(const std::string& name,
+        const std::string& diskPath,
+        Folder* parent)
+        : name(name), diskPath(diskPath), parent(parent) {
+    }
 
-	Files(std::string n, std::string dp, Folder* np);
+    virtual ~File() = default;
 
-	long long getsize() const override;
+    const std::string& getName() const { return name; }
+    const std::string& getDiskPath() const { return diskPath; }
+    Folder* getParent() const { return parent; }
 
-	void deletefromdisk() override;
-
-	virtual void open() = 0;
-
-	virtual std::string gettype() const = 0;
-
-	virtual ~Files() = default;
-
+    virtual void createOnDisk()=0;
+    virtual void open() = 0;
+    virtual std::string getType() const = 0;
+    virtual bool deleteFromDisk() = 0;
+    virtual void loadFromDisk()=0;
+     virtual void saveToDisk()=0;
+     virtual void runEditor() = 0;
 };
+
 #endif
