@@ -8,18 +8,18 @@ class TxtFile : public File {
 protected:
     std::vector<std::string> lines;
 
-    void loadFromDisk() override;
-    void saveToDisk() override;
-    void runEditor() override;
+    virtual void loadFromDisk();
+    virtual void saveToDisk();
+    virtual void runEditor();
 
 public:
     TxtFile(const std::string& name,
         const std::string& diskPath,
         Folder* parent);
 
-    void createOnDisk() override;
+    virtual void createOnDisk();
     void open() override;
-    std::string getType() const override { return "TXT"; }
+    std::string gettype() const override { return "TXT"; }
 
     bool deleteFromDisk() override;
 };
