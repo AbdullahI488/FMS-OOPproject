@@ -1,8 +1,7 @@
-#include"Node.h"
-using namespace std;
-Node::Node(string n,string p,Folder* np) {
-	Node::diskpath = p;
-	Node::name = n;
-	Node::parent = np;
+#include "Node.h"
+
+Node::Node(const std::string& n, const std::string& dp, Folder* np)
+    : name(n), diskpath(dp), parent(np) {
 }
+
 //no need to write getters setters here since they are in header
