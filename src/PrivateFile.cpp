@@ -16,17 +16,17 @@ PrivateFile::PrivateFile(const std::string& name,
 }
 
 void PrivateFile::createOnDisk() {
-    std::ofstream f(diskPath);
+    std::ofstream f(diskpath);
     if (!f.is_open()) {
-        throw std::runtime_error("Could not create file: " + diskPath);
+        throw std::runtime_error("Could not create file: " + diskpath);
     }
     f << PREFIX << passkey << "\n";
-    std::cout << "[OK] Created private file: " << diskPath << "\n";
+    std::cout << "[OK] Created private file: " << diskpath << "\n";
 }
 
 void PrivateFile::loadFromDisk() {
     lines.clear();
-    std::ifstream f(diskPath);
+    std::ifstream f(diskpath);
     if (!f.is_open()) {
         lines.push_back("");
         return;
@@ -48,9 +48,9 @@ void PrivateFile::loadFromDisk() {
 }
 
 void PrivateFile::saveToDisk() {
-    std::ofstream f(diskPath, std::ios::trunc);
+    std::ofstream f(diskpath, std::ios::trunc);
     if (!f.is_open()) {
-        throw std::runtime_error("Could not save file: " + diskPath);
+        throw std::runtime_error("Could not save file: " + diskpath);
     }
 
     f << PREFIX << passkey << "\n";
