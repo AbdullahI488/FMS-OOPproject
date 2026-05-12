@@ -2,29 +2,25 @@
 #define NODE_H
 
 #include <string>
-#include <iostream>
 
 class Folder;
 
 class Node {
 
 protected:
-
     std::string name;
     std::string diskpath;
-    Folder* parent; //it is a ptr to a parent so this var name makes more sense
+    Folder* parent; //it is a ptr to parent so instead var named ptr it should be name parent
 
 public:
-
-    Node(const std::string& n, const std::string& dp, Folder* np); 
-
+    Node(const std::string& n, const std::string& dp, Folder* np);
     virtual ~Node() = default;
 
-    std::string getname() const {
+    const std::string& getname() const {
         return name;
     }
 
-    std::string getdiskpath() const {
+    const std::string& getdiskpath() const {
         return diskpath;
     }
 
@@ -40,13 +36,10 @@ public:
         diskpath = dp;
     }
 
-    virtual void open() = 0; 
-
+    virtual void open() = 0;
     virtual std::string gettype() const = 0;
-
     virtual long long getsize() const = 0;
-
-    virtual void deletefromdisk() = 0;
+    virtual bool deleteFromDisk() = 0;
 };
 
 #endif
