@@ -2,10 +2,10 @@
 #define FILES_H
 #include<iostream>
 #include "Node.h"
-class File {
+class Files {
 public:
 
-	File(std::string n, std::string dp, Folder* np);
+	Files(std::string n, std::string dp, Folder* np);
 
 	long long getsize() const override;
 
@@ -15,7 +15,7 @@ public:
 
 	virtual std::string gettype() const = 0;
 
-	virtual ~File() = default;
+	virtual ~Files() = default;
 
 };
 #endif
