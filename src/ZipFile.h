@@ -28,7 +28,7 @@ public:
     std::string getOriginalExtension() const { return originalExtension; }
 
     void open() override;
-    std::string getType() const override { return "ZIP"; }
+    std::string gettype() const override { return "ZIP"; }
 
     bool deleteFromDisk() override;
 };
