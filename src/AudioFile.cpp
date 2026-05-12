@@ -26,7 +26,7 @@ std::string AudioFile::buildRecordCommand() const {
 #endif
 
     cmd += "-t 5 -ac 1 -ar 44100 ";
-    cmd += "\"" + diskPath + "\"";
+    cmd += "\"" + diskpath + "\"";
     cmd += " 2>/dev/null";
 
     return cmd;
@@ -36,11 +36,11 @@ std::string AudioFile::buildPlayCommand() const {
     std::string cmd;
 
 #if defined(_WIN32)
-    cmd = "start \"\" \"" + diskPath + "\"";
+    cmd = "start \"\" \"" + diskpath + "\"";
 #elif defined(__APPLE__)
-    cmd = "afplay \"" + diskPath + "\"";
+    cmd = "afplay \"" + diskpath + "\"";
 #else
-    cmd = "ffplay -nodisp -autoexit \"" + diskPath + "\" 2>/dev/null";
+    cmd = "ffplay -nodisp -autoexit \"" + diskpath + "\" 2>/dev/null";
 #endif
 
     return cmd;
@@ -67,13 +67,13 @@ void AudioFile::recordAudio() {
     std::cout << "\n";
 
     if (result != 0) {
-        std::ofstream placeholder(diskPath);
+        std::ofstream placeholder(diskpath);
 
         std::cerr << "[Warning] ffmpeg recording failed (is ffmpeg installed?).\n"
-                  << "Created empty placeholder: " << diskPath << "\n";
+                  << "Created empty placeholder: " << diskpath << "\n";
     }
     else {
-        std::cout << "[OK] Audio recorded: " << diskPath << "\n";
+        std::cout << "[OK] Audio recorded: " << diskpath << "\n";
     }
 }
 
