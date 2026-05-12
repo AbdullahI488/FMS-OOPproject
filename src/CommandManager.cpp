@@ -15,9 +15,9 @@ namespace fs = std::filesystem;
 
 CommandManager::CommandManager() {
     root = new Folder("root", "root/", nullptr);
-    currentFolder = root;
+    currentfolder = root;
 
-    registerName("root");
+    registername("root");
 
     std::cout << "[System] File management system started.\n";
 }
@@ -28,9 +28,9 @@ CommandManager::~CommandManager() {
 
 bool CommandManager::isnametaken(const std::string& name) const 
 {
-   for (int i = 0; i < allNames.size(); i++)
+   for (int i = 0; i < allnames.size(); i++)
     {
-        if (allNames[i] == name)
+        if (allnames[i] == name)
         {
             return true;
         }
@@ -214,7 +214,7 @@ void CommandManager::cmdtouch(const std::string& type, const std::string& name)
 
         TxtFile* tf = new TxtFile(name, path, currentfolder);
 
-        tf->createondisk();
+        tf->createOnDisk();
 
         currentfolder->addchild(tf);
 
@@ -228,7 +228,7 @@ void CommandManager::cmdtouch(const std::string& type, const std::string& name)
 
         AudioFile* af = new AudioFile(name, path, currentfolder);
 
-        af->recordaudio();
+        af->recordAudio();
 
         currentfolder->addchild(af);
 
@@ -254,7 +254,7 @@ void CommandManager::cmdtouch(const std::string& type, const std::string& name)
 
         PrivateFile* pf = new PrivateFile(name, path, currentfolder, passkey);
 
-        pf->createondisk();
+        pf->createOnDisk();
 
         currentfolder->addchild(pf);
 
@@ -331,7 +331,7 @@ void CommandManager::cmdopen(const std::string& name)
 
     node->open();
 }
-void CommandManager::cmdSearch(const std::string& name)
+void CommandManager::cmdsearch(const std::string& name)
 {
     if (name.empty())
     {
@@ -339,7 +339,7 @@ void CommandManager::cmdSearch(const std::string& name)
         return;
     }
 
-    std::string result = currentFolder->searchRecursive(name);//will implement after knowing if recursion and dfs allowed
+    std::string result = currentfolder->searchRecursive(name);//will implement after knowing if recursion and dfs allowed
 
     if (result == "")
     {
@@ -373,7 +373,7 @@ void CommandManager::cmdrm(const std::string& name)
         return;
     }
 
-    node->deletefromdisk();
+    node->deleteFromDisk();
 
     unregistersubtree(node);
 
@@ -484,11 +484,11 @@ void CommandManager::cmdunzip(const std::string& name)
         return;
     }
 
-    std::string origname = zf->getoriginalname();
+    std::string origname = zf->getOriginalName();
 
-    std::string origtype = zf->getoriginaltype();
+    std::string origtype = zf->getOriginalType();
 
-    std::string origext = zf->getoriginalextension();
+    std::string origext = zf->getOriginalExtension();
 
     std::string newname = origname + "-unzipped";
 
@@ -574,7 +574,7 @@ void CommandManager::run()
 
     while (true)
     {
-        std::cout << getCurrentPath() << "$ ";
+        std::cout << getcurrentpath() << "$ ";
 
         if (!std::getline(std::cin, inputLine))
         {
@@ -594,25 +594,24 @@ void CommandManager::run()
             std::cout << "[Goodbye]\n";
             break;
         }
-        else if (cmd == "ls") cmdLs();
-        else if (cmd == "mkdir") cmdMkdir(tokens.size() > 1 ? tokens[1] : "");
+        else if (cmd == "ls") cmdls();
+        else if (cmd == "mkdir") cmdmkdir(tokens.size() > 1 ? tokens[1] : "");
         else if (cmd == "touch")
-            cmdTouch(
+            cmdtouch(
                 tokens.size() > 1 ? tokens[1] : "",
                 tokens.size() > 2 ? tokens[2] : ""
             );
-        else if (cmd == "cd") cmdCd(tokens.size() > 1 ? tokens[1] : "");
-        else if (cmd == "open") cmdOpen(tokens.size() > 1 ? tokens[1] : "");
-        else if (cmd == "search") cmdSearch(tokens.size() > 1 ? tokens[1] : "");
-        else if (cmd == "rm") cmdRm(tokens.size() > 1 ? tokens[1] : "");
+        else if (cmd == "cd") cmdcd(tokens.size() > 1 ? tokens[1] : "");
+        else if (cmd == "open") cmdopen(tokens.size() > 1 ? tokens[1] : "");
+        else if (cmd == "search") cmdsearch(tokens.size() > 1 ? tokens[1] : "");
+        else if (cmd == "rm") cmdrm(tokens.size() > 1 ? tokens[1] : "");
         else if (cmd == "rename")
-            cmdRename(
+            cmdrename(
                 tokens.size() > 1 ? tokens[1] : "",
                 tokens.size() > 2 ? tokens[2] : ""
             );
-        else if (cmd == "unzip") cmdUnzip(tokens.size() > 1 ? tokens[1] : "");
-        else if (cmd == "help") cmdHelp();
+        else if (cmd == "unzip") cmdunzip(tokens.size() > 1 ? tokens[1] : "");
+        else if (cmd == "help") cmdhelp();
         else std::cout << "[Error] Unknown command\n";
     }
-}
 }
