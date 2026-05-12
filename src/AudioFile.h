@@ -15,9 +15,8 @@ public:
         Folder* parent);
 
     void recordAudio();
-
     void open() override;
-    std::string getType() const override { return "Audio"; }
+    std::string gettype() const override { return "Audio"; }
 };
 
 #endif
