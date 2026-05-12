@@ -4,43 +4,34 @@
 #include "Node.h"
 
 class Folder : public Node {
-
-	Node** space;
-	int count;
-	int capacity;
-	void resize();
+    Node** space;
+    int count;
+    int capacity;
+    void resize();
 
 public:
+    Folder(std::string name, std::string path, Folder* ptr);
+    ~Folder();
 
-	Folder(std::string name, std::string path, Folder* ptr);
+    void addchild(Node* node);
+    bool removechild(const std::string& name);
+    Node* findchild(const std::string& name) const;
+    std::string searchRecursive(const std::string& targetname) const;
 
-	~Folder();
+    int getcount() const {
+        return count;
+    }
 
-	void addchild(Node* node);
+    Node* getchild(int i) const {
+        return space[i];
+    }
 
-	bool removechild(std::string name);
-
-	Node* findchild(std::string name) const;
-
-	std::string searchrecursive(std::string targetname) const;
-
-	int getcount() const {
-		return count;
-	}
-
-	Node* getchild(int i) const {
-		return space[i];
-	}
-
-	void open() override;
-
-	std::string gettype() const override {
-		return "Folder";
-	}
-
-	long long getsize() const override;
-
-	void deletefromdisk() override;
+    void open() override;
+    std::string gettype() const override {
+        return "Folder";
+    }
+    long long getsize() const override;
+    bool deleteFromDisk() override;
 };
 
 #endif
