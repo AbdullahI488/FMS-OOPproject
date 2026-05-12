@@ -5,7 +5,7 @@
 class File {
 public:
 
-	File(std::string name, std::string path, Folder* ptr);
+	File(std::string n, std::string dp, Folder* np);
 
 	long long getsize() const override;
 
