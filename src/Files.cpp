@@ -19,15 +19,17 @@ long long Files::getsize() const {
 	return 0;
 }
 
-void Files::deletefromdisk() {//actual file deletion
+bool Files::deletefromdisk() {//actual file deletion
 
 	try {
 		if (fs::exists(pathname)) {
 			fs::remove(pathname);
+			return true;
 		}
 	}
 
 	catch (...) {
 		std::cout << "file could not be deleted\n";
+		return false;
 	}
 }
