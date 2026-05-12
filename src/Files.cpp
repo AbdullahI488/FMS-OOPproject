@@ -1,12 +1,12 @@
-#include "File.h"
+#include "Files.h"
 #include <filesystem>
 #include <iostream>
 
 namespace fs = std::filesystem;
 
-File::File(std::string name, std::string dp, Folder* np) : Node(name, path, ptr) {}
+Files::Files(std::string name, std::string dp, Folder* np) : Node(name, path, ptr) {}
 
-long long File::getsize() const {
+long long Files::getsize() const {
 	try {
 
 		if (fs::exists(pathname)) {
@@ -19,7 +19,7 @@ long long File::getsize() const {
 	return 0;
 }
 
-void File::deletefromdisk() {//actual file deletion
+void Files::deletefromdisk() {//actual file deletion
 
 	try {
 		if (fs::exists(pathname)) {
