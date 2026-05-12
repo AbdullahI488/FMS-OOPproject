@@ -1,7 +1,7 @@
 #ifndef PRIVATEFILE_H
 #define PRIVATEFILE_H
 
-#include "TxtFile.h"
+#include "TXTFile.h"
 #include <string>
 
 class PrivateFile : public TxtFile {
@@ -23,7 +23,7 @@ public:
     void saveToDisk() override;
 
     void open() override;
-    std::string getType() const override { return "Private"; }
+    std::string gettype() const override { return "Private"; }
 
     bool deleteFromDisk() override;
 };
